@@ -1,5 +1,5 @@
-FROM ubuntu:16.04
-LABEL maintainer="Jeff Geerling"
+FROM ubuntu:bionic-20200403
+LABEL maintainer="Alex Alonso"
 
 ENV pip_packages "ansible pyopenssl"
 
