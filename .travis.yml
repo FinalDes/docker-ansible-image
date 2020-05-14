@@ -10,8 +10,8 @@ script:
   - docker-compose build ubuntu-foscal
   - docker-compose up -d ubuntu-foscal
   - docker-compose exec -T ubuntu-foscal python3 --version
-  - docker-compose exec -T ${{matrix.build-os}} ansible --version
-  - docker-compose exec -T sudo -u ansible sudo -v
+  - docker-compose exec -T ubuntu-foscal ansible --version
+  - docker-compose exec -T ubuntu-foscal sudo -u ansible sudo -v
   - docker-compose down
   # # Test building Dockerfile.
   # - docker build -t docker-ansible .
