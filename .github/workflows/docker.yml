@@ -28,13 +28,13 @@ jobs:
       - name: check docker compose version
         run: docker-compose --version
       - name: build image ubuntu 18.04
-        run: docker-compose build ${{maxtrixbuild-os}}
+        run: docker-compose build ${{maxtrix.build-os}}
       - name: run container
-        run: docker-compose up -d ${{maxtrixbuild-os}}
+        run: docker-compose up -d ${{maxtrix.build-os}}
       - name: check python version
-        run: docker-compose exec -T ${{maxtrixbuild-os}} python3 --version
+        run: docker-compose exec -T ${{maxtrix.build-os}} python3 --version
       - name: check ansible
-        run: docker-compose exec -T ${{maxtrixbuild-os}} ansible --version
+        run: docker-compose exec -T ${{maxtrix.build-os}} ansible --version
       - name: destroy the container 
         run: docker-compose down
       
