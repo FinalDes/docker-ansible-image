@@ -7,13 +7,13 @@ before_install:
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
 
 script:
-  - docker-compose build foscal
+  - docker-compose -f ubuntu.yml build foscal
   - docker container run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy finaldes/docker-ubuntu-ansible:foscal
   - docker-compose up -d foscal
-  - docker-compose exec -T foscal python3 --version
-  - docker-compose exec -T foscal ansible --version
-  - docker-compose exec -T foscal sudo -u ansible sudo -v
-  - docker-compose down
+  - docker-compose -f ubuntu.yml exec -T foscal python3 --version
+  - docker-compose -f ubuntu.yml exec -T foscal ansible --version
+  - docker-compose -f ubuntu.yml exec -T foscal sudo -u ansible sudo -v
+  - docker-compose -f ubuntu.yml down
   # # Test building Dockerfile.
   # - docker build -t docker-ansible .
 
