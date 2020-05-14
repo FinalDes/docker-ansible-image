@@ -25,5 +25,7 @@ jobs:
         run: docker-compose up -d
       - name: check python version
         run: docker-compose exec ubuntu-bionic python3 --version
+        env:
+          COMPOSE_INTERACTIVE_NO_CLI: "1"
       - name: destroy the container 
         run: docker-compose down
