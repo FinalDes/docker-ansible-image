@@ -33,7 +33,7 @@ jobs:
       - name: list docker image 
         run: docker image ls
       - name: scan image
-        run: docker container run trivy finaldes/docker-ubuntu-ansible:${{matrix.build-os}}
+        run: docker container run aquasec/trivy finaldes/docker-ubuntu-ansible:${{matrix.build-os}}
       - name: run container
         run: docker-compose up -d ${{matrix.build-os}}
       - name: check python version
