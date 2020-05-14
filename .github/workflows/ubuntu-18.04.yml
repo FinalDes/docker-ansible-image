@@ -20,6 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2.1.0
       - name: build image ubuntu 18.04
-        run: docker-compose build
+        run: docker-compose build -f ubuntu/18.04/Dockerfile
       - name: check python version
         run: docker-compose exec ubuntu-bionic python3 --version
