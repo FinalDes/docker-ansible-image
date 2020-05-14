@@ -1,8 +1,9 @@
 version: '2.4'
 services:
   ubuntu-bionic:
-    build: .
-    dockerfile: ubuntu/18.04/Dockerfile
+    build:
+      context: .
+      dockerfile: ubuntu/18.04/Dockerfile
     image: finaldes/docker-ubuntu-ansible:bionic
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
