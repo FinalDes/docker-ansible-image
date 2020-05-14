@@ -1,0 +1,8 @@
+version: '2.4'
+services:
+  ubuntu-bionic:
+    build: .
+    image: finaldes/docker-ubuntu-ansible:bionic
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true

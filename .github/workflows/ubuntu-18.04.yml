@@ -1,0 +1,25 @@
+name: Ubuntu 18.04 build
+
+on:
+  pull_request:
+    branches:
+      - master
+      - develop
+  push:
+    branches:
+      - master
+      - test
+      - create-workflow/*
+jobs:
+  test:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - name: build image ubuntu 18.04
+        run: docker-compose build
+      - name: check python version
+        run: docker-compose exec ubuntu-bionic python3 --version
