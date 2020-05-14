@@ -20,7 +20,7 @@ services:
     build:
       context: .
       dockerfile: ubuntu/20.04/Dockerfile
-    image: finaldes/docker-ubuntu-ansible:bionic
+    image: finaldes/docker-ubuntu-ansible:foscal
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
