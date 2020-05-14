@@ -1,6 +1,6 @@
 version: '2.4'
 services:
-  ubuntu-xenial:
+  xenial:
     build:
       context: .
       dockerfile: ubuntu/16.04/Dockerfile
@@ -8,7 +8,7 @@ services:
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
-  ubuntu-bionic:
+  bionic:
     build:
       context: .
       dockerfile: ubuntu/18.04/Dockerfile
@@ -16,7 +16,7 @@ services:
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
-  ubuntu-foscal:
+  foscal:
     build:
       context: .
       dockerfile: ubuntu/20.04/Dockerfile

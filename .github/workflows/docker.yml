@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v2.1.0
       - name: check docker compose version
         run: docker-compose --version
-      - name: build image ubuntu ${{matrix.build-os}} -t
+      - name: build image ubuntu ${{matrix.build-os}}
         run: docker-compose -f ubuntu.yml build ${{matrix.build-os}}
       - name: list docker image 
         run: docker image ls
