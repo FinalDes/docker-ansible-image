@@ -16,9 +16,9 @@ jobs:
     strategy:
       matrix:
         build-os:
-          - ubuntu-xenial
-          - ubuntu-bionic
-          - ubuntu-foscal
+          - xenial
+          - bionic
+          - foscal
         os:
           - ubuntu-18.04
     # env:
@@ -29,9 +29,11 @@ jobs:
       - name: check docker compose version
         run: docker-compose --version
       - name: build image ubuntu ${{matrix.build-os}} -t
-        run: docker-compose build ${{matrix.build-os}}
-      - name: list docker image
+        run: docker-compose -f ubuntu.yml build ${{matrix.build-os}}
+      - name: list docker image 
         run: docker image ls
+      - name: scan image
+        run: docker container run trivy finaldes/docker-ubuntu-ansible:${{matrix.build-os}}
       - name: run container
         run: docker-compose up -d ${{matrix.build-os}}
       - name: check python version
