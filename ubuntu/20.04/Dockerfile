@@ -1,10 +1,9 @@
-FROM ubuntu:bionic-20200403
-LABEL maintainer="Alex Alonso"
+FROM ubuntu:focal-20200423
+LABEL maintainer="Jeff Geerling"
 
-ENV pip_packages "ansible pyopenssl"
+ENV pip_packages "ansible"
 
 # Install dependencies.
-
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        apt-utils \
@@ -12,7 +11,7 @@ RUN apt-get update \
        python3-setuptools \
        python3-pip \
        software-properties-common \
-       rsyslog systemd systemd-cron sudo \
+       rsyslog systemd systemd-cron sudo iproute2 \
     && rm -Rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean

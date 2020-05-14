@@ -1,4 +1,4 @@
-name: Ubuntu 18.04 build
+name: docker build
 
 on:
   pull_request:
@@ -15,6 +15,10 @@ jobs:
     runs-on: ${{matrix.os}}
     strategy:
       matrix:
+        build-os:
+          - ubuntu-xenial
+          - ubuntu-bionic
+          - ubuntu-foscal
         os:
           - ubuntu-18.04
     # env:
@@ -24,12 +28,13 @@ jobs:
       - name: check docker compose version
         run: docker-compose --version
       - name: build image ubuntu 18.04
-        run: docker-compose build
+        run: docker-compose build ${{maxtrixbuild-os}}
       - name: run container
-        run: docker-compose up -d
+        run: docker-compose up -d ${{maxtrixbuild-os}}
       - name: check python version
-        run: docker-compose exec -T ubuntu-bionic python3 --version
+        run: docker-compose exec -T ${{maxtrixbuild-os}} python3 --version
       - name: check ansible
-        run: docker-compose exec -T ubuntu-bionic ansible --version
+        run: docker-compose exec -T ${{maxtrixbuild-os}} ansible --version
       - name: destroy the container 
         run: docker-compose down
+      
