@@ -28,8 +28,10 @@ jobs:
       - uses: actions/checkout@v2.1.0
       - name: check docker compose version
         run: docker-compose --version
-      - name: build image ubuntu ${{matrix.build-os}}
+      - name: build image ubuntu ${{matrix.build-os}} -t
         run: docker-compose build ${{matrix.build-os}}
+      - name: list docker image
+        run: docker image ls
       - name: run container
         run: docker-compose up -d ${{matrix.build-os}}
       - name: check python version
