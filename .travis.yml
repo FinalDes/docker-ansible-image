@@ -10,14 +10,20 @@ env:
   ANSIBLE_USER: ansible
 
 script:
-  # Test building Dockerfile.
-  - docker build -t docker-ansible .
+  - docker-compose build ubuntu-foscal
+  - docker-compose up -d ubuntu-foscal
+  - docker-compose exec -T ubuntu-foscal python3 --version
+  - docker-compose exec -T ${{matrix.build-os}} ansible --version
+  - docker-compose exec -T sudo -u ansible sudo -v
+  - docker-compose down
+  # # Test building Dockerfile.
+  # - docker build -t docker-ansible .
 
-  # Test running the container.
-  - docker run --name test-container -d --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro docker-ansible
+  # # Test running the container.
+  # - docker run --name test-container -d --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro docker-ansible
 
-  # Verify that `ansible` user exists and is a sudoer
-  - docker exec --tty test-container env TERM=xterm sudo -u ${ANSIBLE_USER} sudo -v
+  # # Verify that `ansible` user exists and is a sudoer
+  # - docker exec --tty test-container env TERM=xterm sudo -u ${ANSIBLE_USER} sudo -v
 
-  # Verify Ansible is available in the container.
-  - docker exec --tty test-container env TERM=xterm ansible --version
+  # # Verify Ansible is available in the container.
+  # - docker exec --tty test-container env TERM=xterm ansible --version
