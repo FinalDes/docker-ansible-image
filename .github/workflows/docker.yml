@@ -37,7 +37,7 @@ jobs:
       - name: check ansible
         run: docker-compose exec -T ${{matrix.build-os}} ansible --version
       - name: ansible user
-        run:  docker-compose exec -T sudo -u ansible sudo -v
+        run:  docker-compose exec -T ${{matrix.build-os}} sudo -u ansible sudo -v
       - name: destroy the container 
         run: docker-compose down
       
