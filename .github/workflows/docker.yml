@@ -35,13 +35,13 @@ jobs:
       - name: scan image
         run: docker container run aquasec/trivy finaldes/docker-ubuntu-ansible:${{matrix.build-os}}
       - name: run container
-        run: docker-compose up -d ${{matrix.build-os}}
+        run: docker-compose -f ubuntu.yml up -d ${{matrix.build-os}}
       - name: check python version
-        run: docker-compose exec -T ${{matrix.build-os}} python3 --version
+        run: docker-compose -f ubuntu.yml exec -T ${{matrix.build-os}} python3 --version
       - name: check ansible
-        run: docker-compose exec -T ${{matrix.build-os}} ansible --version
+        run: docker-compose -f ubuntu.yml exec -T ${{matrix.build-os}} ansible --version
       - name: ansible user
-        run:  docker-compose exec -T ${{matrix.build-os}} sudo -u ansible sudo -v
+        run:  docker-compose -f ubuntu.yml exec -T ${{matrix.build-os}} sudo -u ansible sudo -v
       - name: destroy the container 
-        run: docker-compose down
+        run: docker-compose -f ubuntu.yml down
       
