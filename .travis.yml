@@ -6,9 +6,6 @@ before_install:
   - sudo apt-get update
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
 
-env:
-  ANSIBLE_USER: ansible
-
 script:
   - docker-compose build ubuntu-foscal
   - docker-compose up -d ubuntu-foscal
