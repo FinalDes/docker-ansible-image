@@ -1,26 +1,24 @@
 version: '2.4'
+x-base: &base
+  volumes:
+    - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  privileged: true
 services:
   xenial:
+    <<: *base
     build:
       context: .
       dockerfile: ubuntu/16.04/Dockerfile
     image: finaldes/docker-ubuntu-ansible:bionic
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
   bionic:
+    <<: *base
     build:
       context: .
       dockerfile: ubuntu/18.04/Dockerfile
     image: finaldes/docker-ubuntu-ansible:bionic
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
   foscal:
+    <<: *base
     build:
       context: .
       dockerfile: ubuntu/20.04/Dockerfile
     image: finaldes/docker-ubuntu-ansible:foscal
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
