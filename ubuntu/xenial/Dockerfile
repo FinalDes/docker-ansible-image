@@ -6,10 +6,10 @@ ENV pip_packages "ansible pyopenssl"
 # Install dependencies.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-       python-software-properties \
+       python3-software-properties \
        software-properties-common \
-       python-setuptools \
-       python-pip \
+       python3-setuptools \
+       python3-pip \
        rsyslog systemd systemd-cron sudo \
     && rm -Rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
@@ -17,7 +17,7 @@ RUN apt-get update \
 RUN sed -i 's/^\($ModLoad imklog\)/#\1/' /etc/rsyslog.conf
 
 # Install Ansible via Pip.
-RUN pip install $pip_packages
+RUN pip3 install $pip_packages
 
 COPY initctl_faker .
 RUN chmod +x initctl_faker && rm -fr /sbin/initctl && ln -s /initctl_faker /sbin/initctl
