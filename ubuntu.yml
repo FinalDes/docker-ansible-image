@@ -8,17 +8,17 @@ services:
     <<: *base
     build:
       context: .
-      dockerfile: ubuntu/16.04/Dockerfile
+      dockerfile: ubuntu/xenial/Dockerfile
     image: finaldes/docker-ubuntu-ansible:bionic
   bionic:
     <<: *base
     build:
       context: .
-      dockerfile: ubuntu/18.04/Dockerfile
+      dockerfile: ubuntu/bionic/Dockerfile
     image: finaldes/docker-ubuntu-ansible:bionic
   foscal:
     <<: *base
     build:
       context: .
-      dockerfile: ubuntu/20.04/Dockerfile
+      dockerfile: ubuntu/foscal/Dockerfile
     image: finaldes/docker-ubuntu-ansible:foscal
