@@ -38,6 +38,9 @@ jobs:
         run: docker-compose -f ubuntu.yml config -q
       - name: build image ubuntu ${{matrix.build-os}}
         run: docker-compose -f ubuntu.yml build ${{matrix.build-os}}
+        env: 
+          COMPOSE_DOCKER_CLI_BUILD: '1'
+          DOCKER_BUILDKIT: '1'
       - name: list docker image 
         run: docker image ls
       - name: scan image
