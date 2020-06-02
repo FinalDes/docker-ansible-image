@@ -29,8 +29,11 @@ jobs:
       - uses: actions/checkout@v2.1.0
       # - name: check docker compose version
       #   run: docker-compose --version
-      - name: docker file
-        run: docker run --rm -i hadolint/hadolint < ubuntu/${{matrix.build-os}}/Dockerfile
+      - uses: brpaz/hadolint-action@master
+        with:
+          dockerfile:  "ubuntu/${{matrix.build-os}}/Dockerfile"
+      # - name: docker file
+      #   run: docker run --rm -i hadolint/hadolint < ubuntu/${{matrix.build-os}}/Dockerfile
       - name: lint docker-compose file
         run: docker-compose -f ubuntu.yml config -q
       - name: build image ubuntu ${{matrix.build-os}}
