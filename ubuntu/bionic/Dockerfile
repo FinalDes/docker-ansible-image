@@ -13,6 +13,7 @@ RUN apt-get update \
        python3-pip \
        software-properties-common \
        rsyslog systemd systemd-cron sudo \
+    && apt-get upgrade -y \
     && rm -Rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean

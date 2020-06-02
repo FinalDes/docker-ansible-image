@@ -11,6 +11,7 @@ RUN apt-get update \
        python3-setuptools \
        python3-pip \
        rsyslog systemd systemd-cron sudo \
+    && apt-get upgrade -y \
     && rm -Rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
