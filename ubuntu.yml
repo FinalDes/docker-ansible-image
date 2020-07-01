@@ -16,9 +16,9 @@ services:
       context: .
       dockerfile: ubuntu/bionic/Dockerfile
     image: finaldes/docker-ubuntu-ansible:bionic
-  foscal:
+  fosal:
     <<: *base
     build:
       context: .
-      dockerfile: ubuntu/foscal/Dockerfile
-    image: finaldes/docker-ubuntu-ansible:foscal
+      dockerfile: ubuntu/focal/Dockerfile
+    image: finaldes/docker-ubuntu-ansible:focal

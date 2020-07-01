@@ -19,7 +19,7 @@ jobs:
         build-os:
           - xenial
           - bionic
-          - foscal
+          - focal
         os:
           - ubuntu-18.04
     # env:
