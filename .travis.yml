@@ -9,7 +9,7 @@ before_install:
 script:
   - docker-compose -f ubuntu.yml config -q
   - COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f ubuntu.yml build focal
-  - docker container run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy finaldes/docker-ubuntu-ansible:foscal
+  - docker container run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy finaldes/docker-ubuntu-ansible:focal
   - docker-compose -f ubuntu.yml up -d focal
   - docker-compose -f ubuntu.yml exec -T focal python3 --version
   - docker-compose -f ubuntu.yml exec -T focal ansible --version
