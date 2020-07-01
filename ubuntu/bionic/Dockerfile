@@ -1,4 +1,4 @@
-FROM ubuntu:bionic-20200403
+FROM ubuntu:bionic-20200526
 LABEL maintainer="Alex Alonso"
 
 ENV pip_packages "ansible pyopenssl"

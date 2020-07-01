@@ -9,7 +9,7 @@ services:
     build:
       context: .
       dockerfile: ubuntu/xenial/Dockerfile
-    image: finaldes/docker-ubuntu-ansible:bionic
+    image: finaldes/docker-ubuntu-ansible:xenial
   bionic:
     <<: *base
     build:

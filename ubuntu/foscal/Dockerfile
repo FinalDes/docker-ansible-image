@@ -1,4 +1,4 @@
-FROM ubuntu:focal-20200423
+FROM ubuntu:focal-20200606
 LABEL maintainer="Jeff Geerling"
 
 ENV pip_packages "ansible"
