@@ -8,12 +8,12 @@ before_install:
 
 script:
   - docker-compose -f ubuntu.yml config -q
-  - docker-compose -f ubuntu.yml build foscal
+  - docker-compose -f ubuntu.yml build focal
   - docker container run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy finaldes/docker-ubuntu-ansible:foscal
-  - docker-compose -f ubuntu.yml up -d foscal
-  - docker-compose -f ubuntu.yml exec -T foscal python3 --version
-  - docker-compose -f ubuntu.yml exec -T foscal ansible --version
-  - docker-compose -f ubuntu.yml exec -T foscal sudo -u ansible sudo -v
+  - docker-compose -f ubuntu.yml up -d focal
+  - docker-compose -f ubuntu.yml exec -T focal python3 --version
+  - docker-compose -f ubuntu.yml exec -T focal ansible --version
+  - docker-compose -f ubuntu.yml exec -T focal sudo -u ansible sudo -v
   - docker-compose -f ubuntu.yml down
   # # Test building Dockerfile.
   # - docker build -t docker-ansible .
