@@ -1,4 +1,4 @@
-FROM ubuntu:xenial-20200514
+FROM ubuntu:xenial-20210804
 LABEL maintainer="Jeff Geerling"
 
 ENV pip_packages "ansible pyopenssl"
