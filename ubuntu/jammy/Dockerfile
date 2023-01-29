@@ -1,21 +1,25 @@
-FROM ubuntu:xenial-20210804
+FROM ubuntu:jammy-20221130
 LABEL maintainer="Alex Alonso"
 
-ENV pip_packages "ansible pyopenssl"
+ENV pip_packages "ansible"
 
 # Install dependencies.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-       python3-software-properties \
-       software-properties-common \
+       apt-utils \
+       locales \
        python3-setuptools \
        python3-pip \
-       rsyslog systemd systemd-cron sudo \
+       software-properties-common \
+       rsyslog systemd systemd-cron sudo iproute2 \
     && apt-get upgrade -y \
     && rm -Rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
 RUN sed -i 's/^\($ModLoad imklog\)/#\1/' /etc/rsyslog.conf
+
+# Fix potential UTF-8 errors with ansible-test.
+RUN locale-gen en_US.UTF-8
 
 # Install Ansible via Pip.
 RUN pip3 install --no-cache-dir $pip_packages

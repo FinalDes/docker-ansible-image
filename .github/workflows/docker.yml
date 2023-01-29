@@ -20,8 +20,9 @@ jobs:
           - xenial
           - bionic
           - focal
+          - jammy
         os:
-          - ubuntu-18.04
+          - ubuntu-22.04
     # env:
     #   ANSIBLE_USER: ansible
       # COMPOSE_INTERACTIVE_NO_CLI: "1" #fix the input device is not a TTY
