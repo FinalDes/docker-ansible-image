@@ -22,3 +22,9 @@ services:
       context: .
       dockerfile: ubuntu/focal/Dockerfile
     image: finaldes/docker-ubuntu-ansible:focal
+  jammy:
+    <<: *base
+    build:
+      context: .
+      dockerfile: ubuntu/jammy/Dockerfile
+    image: finaldes/docker-ubuntu-ansible:jammy

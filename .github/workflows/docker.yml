@@ -17,19 +17,20 @@ jobs:
     strategy:
       matrix:
         build-os:
-          - xenial
-          - bionic
+          # - xenial
+          # - bionic
           - focal
+          - jammy
         os:
-          - ubuntu-18.04
+          - ubuntu-22.04
     # env:
     #   ANSIBLE_USER: ansible
       # COMPOSE_INTERACTIVE_NO_CLI: "1" #fix the input device is not a TTY
     steps:
-      - uses: actions/checkout@v2.1.0
+      - uses: actions/checkout@v3.3.0
       # - name: check docker compose version
       #   run: docker-compose --version
-      - uses: brpaz/hadolint-action@master
+      - uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile:  "ubuntu/${{matrix.build-os}}/Dockerfile"
       # - name: docker file
@@ -44,7 +45,7 @@ jobs:
       - name: list docker image 
         run: docker image ls
       - name: scan image
-        run: docker container run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy finaldes/docker-ubuntu-ansible:${{matrix.build-os}}
+        run: docker container run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image finaldes/docker-ubuntu-ansible:${{matrix.build-os}}
       - name: run container
         run: docker-compose -f ubuntu.yml up -d ${{matrix.build-os}}
       - name: check python version

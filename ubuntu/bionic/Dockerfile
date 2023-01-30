@@ -1,4 +1,4 @@
-FROM ubuntu:bionic-20200526
+FROM ubuntu:bionic-20221215
 LABEL maintainer="Alex Alonso"
 
 ENV pip_packages "ansible pyopenssl"
@@ -23,7 +23,7 @@ RUN sed -i 's/^\($ModLoad imklog\)/#\1/' /etc/rsyslog.conf
 RUN locale-gen en_US.UTF-8
 
 # Install Ansible via Pip.
-RUN pip3 install $pip_packages
+RUN pip3 install --no-cache-dir $pip_packages
 
 COPY initctl_faker .
 RUN chmod +x initctl_faker && rm -fr /sbin/initctl && ln -s /initctl_faker /sbin/initctl
