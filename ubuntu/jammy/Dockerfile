@@ -4,18 +4,21 @@ LABEL maintainer="Alex Alonso"
 ENV pip_packages "ansible"
 
 # Install dependencies.
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-       apt-utils \
-       locales \
-       python3-setuptools \
-       python3-pip \
-       software-properties-common \
-       rsyslog systemd systemd-cron sudo iproute2 \
-    && apt-get upgrade -y \
-    && rm -Rf /var/lib/apt/lists/* \
-    && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
-    && apt-get clean
+RUN <<EOR
+  apt-get update
+  apt-get install -y --no-install-recommends \
+   apt-utils \
+   locales \
+   python3-setuptools \
+   python3-pip \
+   software-properties-common \
+   rsyslog systemd systemd-cron sudo iproute2
+  apt-get upgrade -y
+  rm -Rf /var/lib/apt/lists/*
+  rm -Rf /usr/share/doc && rm -Rf /usr/share/man
+  apt-get clean
+EOR
+
 RUN sed -i 's/^\($ModLoad imklog\)/#\1/' /etc/rsyslog.conf
 
 # Fix potential UTF-8 errors with ansible-test.
@@ -33,16 +36,20 @@ RUN printf "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
 
 # Remove unnecessary getty and udev targets that result in high CPU usage when using
 # multiple containers with Molecule (https://github.com/ansible/molecule/issues/1104)
-RUN rm -f /lib/systemd/system/systemd*udev* \
-  && rm -f /lib/systemd/system/getty.target
+RUN <<EOR
+  rm -f /lib/systemd/system/systemd*udev* \
+  rm -f /lib/systemd/system/getty.target
+EOR
 
 # Create `ansible` user with sudo permissions
 ENV ANSIBLE_USER=ansible SUDO_GROUP=sudo
-RUN set -xe \
-  && groupadd -r ${ANSIBLE_USER} \
-  && useradd -m -g ${ANSIBLE_USER} ${ANSIBLE_USER} \
-  && usermod -aG ${SUDO_GROUP} ${ANSIBLE_USER} \
-  && sed -i "/^%${SUDO_GROUP}/s/ALL\$/NOPASSWD:ALL/g" /etc/sudoers
+RUN <<EOR
+  set -xe \
+  groupadd -r ${ANSIBLE_USER} \
+  useradd -m -g ${ANSIBLE_USER} ${ANSIBLE_USER} \
+  usermod -aG ${SUDO_GROUP} ${ANSIBLE_USER} \
+  sed -i "/^%${SUDO_GROUP}/s/ALL\$/NOPASSWD:ALL/g" /etc/sudoers
+EOR
 
 VOLUME ["/sys/fs/cgroup", "/tmp", "/run"]
 CMD ["/lib/systemd/systemd"]
