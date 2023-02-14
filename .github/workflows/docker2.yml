@@ -89,7 +89,7 @@ jobs:
           load: true
       - 
         name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@v0.9.1
+        uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'finaldes/docker-ubuntu-ansible:${{matrix.build-os}}'
           format: 'template'
