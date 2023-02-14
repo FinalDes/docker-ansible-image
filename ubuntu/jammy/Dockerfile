@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1.4
-FROM ubuntu:jammy-20221130
+FROM ubuntu:jammy-20230126
 LABEL maintainer="Alex Alonso"
 
 ENV pip_packages "ansible"
