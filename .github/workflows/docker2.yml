@@ -65,12 +65,12 @@ jobs:
         uses: docker/metadata-action@v4.3.0
         with:
           images: |
-            finaldes/docker-ubuntu-ansible
+            ${{ secrets.DOCKERHUB_USERNAME }}/docker-ubuntu-ansible
           flavor: |
             latest=false
           tags: |
             type=raw,value=${{matrix.build-os}}
-            type=schedule, prefix=${{matrix.build-os}} pattern={{date 'YYYYMMDD'}}
+            type=raw,prefix=${{matrix.build-os}}-,value={{date 'YYYYMMDD'}}
       -
         # this will build the amd64 image
         name: Docker Build
@@ -90,7 +90,7 @@ jobs:
         name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'finaldes/docker-ubuntu-ansible:${{matrix.build-os}}'
+          image-ref: ' ${{ secrets.DOCKERHUB_USERNAME }}/docker-ubuntu-ansible:${{matrix.build-os}}'
           format: 'template'
           template: '@/contrib/sarif.tpl'
           output: 'trivy-results.sarif'
