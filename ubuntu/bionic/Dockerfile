@@ -5,25 +5,31 @@ ENV pip_packages "ansible pyopenssl"
 
 # Install dependencies.
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
+ADD https://bootstrap.pypa.io/get-pip.py get-pip.py
+
+RUN <<EOR
+    apt-get update
+    apt-get install -y --no-install-recommends software-properties-common
+    add-apt-repository -y ppa:deadsnakes/ppa
+    apt-get install -y --no-install-recommends \
        apt-utils \
        locales \
-       python3-setuptools \
-       python3-pip \
-       software-properties-common \
        rsyslog systemd systemd-cron sudo \
-    && apt-get upgrade -y \
-    && rm -Rf /var/lib/apt/lists/* \
-    && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
-    && apt-get clean
+       python3.11
+    apt-get upgrade -y
+    python3.11 get-pip.py
+    rm -Rf /var/lib/apt/lists/*
+    rm -Rf /usr/share/doc && rm -Rf /usr/share/man
+    apt-get clean
+EOR
+
 RUN sed -i 's/^\($ModLoad imklog\)/#\1/' /etc/rsyslog.conf
 
 # Fix potential UTF-8 errors with ansible-test.
 RUN locale-gen en_US.UTF-8
 
 # Install Ansible via Pip.
-RUN pip3 install --no-cache-dir $pip_packages
+RUN python3.11 -m pip install --no-cache-dir $pip_packages
 
 COPY initctl_faker .
 RUN chmod +x initctl_faker && rm -fr /sbin/initctl && ln -s /initctl_faker /sbin/initctl
