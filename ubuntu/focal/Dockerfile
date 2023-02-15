@@ -1,8 +1,9 @@
-# syntax = docker/dockerfile:1.4
+# syntax = docker/dockerfile:1.5.2
 FROM ubuntu:focal-20230126
 LABEL maintainer="Alex Alonso"
 
 ENV pip_packages "ansible"
+ENV DEBIAN_FRONTEND "noninteractive"
 
 ADD https://bootstrap.pypa.io/get-pip.py get-pip.py
 # Install dependencies.

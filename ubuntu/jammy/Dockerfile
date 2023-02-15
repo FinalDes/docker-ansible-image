@@ -1,24 +1,25 @@
-# syntax = docker/dockerfile:1.4
+# syntax = docker/dockerfile:1.5.2
 FROM ubuntu:jammy-20230126
 LABEL maintainer="Alex Alonso"
 
 ENV pip_packages "ansible"
+ENV DEBIAN_FRONTEND "noninteractive"
 
 ADD https://bootstrap.pypa.io/get-pip.py get-pip.py
 # Install dependencies.
 RUN <<EOR
   apt-get update
+  apt-get upgrade -y
   apt-get install -y --no-install-recommends software-properties-common
+  add-apt-repository -y ppa:deadsnakes/ppa
   add-apt-repository -y ppa:deadsnakes/ppa
   apt-get update
   apt-get install -y --no-install-recommends \
    apt-utils \
    locales \
    python3.11 \
-   software-properties-common \
-   rsyslog systemd systemd-cron sudo iproute2 \
+   rsyslog systemd systemd-cron sudo iproute2
   python3.11 get-pip.py
-  apt-get upgrade -y
   rm -Rf /var/lib/apt/lists/*
   rm -Rf /usr/share/doc && rm -Rf /usr/share/man
   apt-get clean

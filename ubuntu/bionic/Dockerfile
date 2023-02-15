@@ -1,7 +1,10 @@
+# syntax = docker/dockerfile:1.5.2
+
 FROM ubuntu:bionic-20230126
 LABEL maintainer="Alex Alonso"
 
 ENV pip_packages "ansible pyopenssl"
+ENV DEBIAN_FRONTEND "noninteractive"
 
 # Install dependencies.
 
