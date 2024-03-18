@@ -1,9 +1,12 @@
-name: docker build
-
+name: check image
 on:
   pull_request:
     branches:
       - master
+    paths:
+      - ubuntu/jammy/Dockerfile
+      - ubuntu/focal/DockerFile
+      - ubuntu/bionic/DockerFile
   push:
     branches:
       - master
@@ -18,7 +21,7 @@ jobs:
       matrix:
         build-os:
           # - xenial
-          # - bionic
+          - bionic
           - focal
           - jammy
         os:

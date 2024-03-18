@@ -1,5 +1,5 @@
-# syntax = docker/dockerfile:1.5.2
-FROM ubuntu:jammy-20230126
+# syntax = docker/dockerfile:1.7.0
+FROM ubuntu:jammy-20240227
 LABEL maintainer="Alex Alonso"
 
 ENV pip_packages "ansible"

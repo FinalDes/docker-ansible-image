@@ -1,6 +1,6 @@
-# syntax = docker/dockerfile:1.5.2
+# syntax = docker/dockerfile:1.7.0
 
-FROM ubuntu:bionic-20230126
+FROM ubuntu:bionic-20230530
 LABEL maintainer="Alex Alonso"
 
 ENV pip_packages "ansible pyopenssl"
