@@ -5,8 +5,9 @@ on:
       - master
     paths:
       - ubuntu/jammy/Dockerfile
-      - ubuntu/focal/DockerFile
-      - ubuntu/bionic/DockerFile
+      - ubuntu/focal/Dockerfile
+      - ubuntu/bionic/Dockerfile
+      - ubuntu/noble/Dockerfile
   push:
     branches:
       - master
@@ -21,31 +22,32 @@ jobs:
       matrix:
         build-os:
           # - xenial
-          - bionic
+          # - bionic
           - focal
           - jammy
+          - noble
         os:
-          - ubuntu-22.04
+          - ubuntu-24.04
     # env:
     #   ANSIBLE_USER: ansible
-      # COMPOSE_INTERACTIVE_NO_CLI: "1" #fix the input device is not a TTY
+    # COMPOSE_INTERACTIVE_NO_CLI: "1" #fix the input device is not a TTY
     steps:
       - uses: actions/checkout@v3.3.0
       # - name: check docker compose version
       #   run: docker-compose --version
       - uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile:  "ubuntu/${{matrix.build-os}}/Dockerfile"
+          dockerfile: "ubuntu/${{matrix.build-os}}/Dockerfile"
       # - name: docker file
       #   run: docker run --rm -i hadolint/hadolint < ubuntu/${{matrix.build-os}}/Dockerfile
       - name: lint docker-compose file
         run: docker-compose -f ubuntu.yml config -q
       - name: build image ubuntu ${{matrix.build-os}}
         run: docker-compose -f ubuntu.yml build ${{matrix.build-os}}
-        env: 
-          COMPOSE_DOCKER_CLI_BUILD: '1'
-          DOCKER_BUILDKIT: '1'
-      - name: list docker image 
+        env:
+          COMPOSE_DOCKER_CLI_BUILD: "1"
+          DOCKER_BUILDKIT: "1"
+      - name: list docker image
         run: docker image ls
       - name: scan image
         run: docker container run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image finaldes/docker-ubuntu-ansible:${{matrix.build-os}}
@@ -56,7 +58,6 @@ jobs:
       - name: check ansible
         run: docker-compose -f ubuntu.yml exec -T ${{matrix.build-os}} ansible --version
       - name: ansible user
-        run:  docker-compose -f ubuntu.yml exec -T ${{matrix.build-os}} sudo -u ansible sudo -v
-      - name: destroy the container 
+        run: docker-compose -f ubuntu.yml exec -T ${{matrix.build-os}} sudo -u ansible sudo -v
+      - name: destroy the container
         run: docker-compose -f ubuntu.yml down
-      
