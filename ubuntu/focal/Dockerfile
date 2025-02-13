@@ -1,4 +1,4 @@
-# syntax = docker/dockerfile:1.7.0
+# syntax = docker/dockerfile:1.13.0
 FROM ubuntu:focal-20241011
 LABEL maintainer="Alex Alonso"
 
@@ -15,9 +15,9 @@ RUN <<EOR
   apt-get install -y --no-install-recommends \
     apt-utils \
     locales \
-    python3.11 \
+    python3.13 \
     rsyslog systemd systemd-cron sudo iproute2
-  python3.11 get-pip.py
+  python3.13 get-pip.py
   apt-get upgrade -y
   rm -Rf /var/lib/apt/lists/*
   rm -Rf /usr/share/doc && rm -Rf /usr/share/man
@@ -30,7 +30,7 @@ RUN sed -i 's/^\($ModLoad imklog\)/#\1/' /etc/rsyslog.conf
 RUN locale-gen en_US.UTF-8
 
 # Install Ansible via Pip.
-RUN python3.11 -m pip install --no-cache-dir $pip_packages
+RUN python3.13 -m pip install --no-cache-dir $pip_packages
 
 COPY initctl_faker .
 RUN chmod +x initctl_faker && rm -fr /sbin/initctl && ln -s /initctl_faker /sbin/initctl
