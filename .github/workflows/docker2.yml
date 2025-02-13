@@ -6,8 +6,9 @@ on:
       - master
     paths:
       - ubuntu/jammy/Dockerfile
-      - ubuntu/focal/DockerFile
-      - ubuntu/bionic/DockerFile
+      - ubuntu/focal/Dockerfile
+      - ubuntu/bionic/Dockerfile
+      - ubuntu/noble/Dockerfile
   push:
     branches:
       - master
@@ -24,32 +25,27 @@ jobs:
           - focal
           - jammy
         os:
-          - ubuntu-22.04
+          - ubuntu-24.04
     steps:
-      - 
-        name: checkout
-        uses: actions/checkout@v3.3.0
-      - 
-        name: lint dockerfile
+      - name: checkout
+        uses: actions/checkout@v4.2.2
+      - name: lint dockerfile
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile:  "ubuntu/${{matrix.build-os}}/Dockerfile"
-      - 
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2.4.1
+          dockerfile: "ubuntu/${{matrix.build-os}}/Dockerfile"
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3.9.0
         id: buildx
-      -
-        name: Cache Docker layers
-        uses: actions/cache@v3.2.5
+      - name: Cache Docker layers
+        uses: actions/cache@v4.2.0
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-      -
-        name: Login to DockerHub
+      - name: Login to DockerHub
         if: github.event_name != 'pull_request'
-        uses: docker/login-action@v2.1.0 
+        uses: docker/login-action@v3.3.0
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -60,10 +56,9 @@ jobs:
       #     registry: ghcr.io
       #     username: ${{ github.actor }}
       #     password: ${{ secrets.GITHUB_TOKEN }}
-      -
-        name: Docker meta
+      - name: Docker meta
         id: base_meta
-        uses: docker/metadata-action@v4.3.0
+        uses: docker/metadata-action@v5.6.1
         with:
           images: |
             ${{ secrets.DOCKERHUB_USERNAME }}/docker-ubuntu-ansible
@@ -72,10 +67,9 @@ jobs:
           tags: |
             type=raw,value=${{matrix.build-os}}
             type=raw,prefix=${{matrix.build-os}}-,value={{date 'YYYYMMDD'}}
-      -
-        # this will build the amd64 image
+      - # this will build the amd64 image
         name: Docker Build
-        uses: docker/build-push-action@v4.0.0
+        uses: docker/build-push-action@v6.13.0
         with:
           platforms: linux/amd64
           builder: ${{ steps.buildx.outputs.name }}
@@ -87,24 +81,21 @@ jobs:
           tags: ${{ steps.base_meta.outputs.tags }}
           labels: ${{ steps.base_meta.outputs.labels }}
           load: true
-      - 
-        name: Run Trivy vulnerability scanner
+      - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ' ${{ secrets.DOCKERHUB_USERNAME }}/docker-ubuntu-ansible:${{matrix.build-os}}'
-          format: 'template'
-          template: '@/contrib/sarif.tpl'
-          output: 'trivy-results.sarif'
-      - 
-        name: Upload Trivy scan results to GitHub Security tab
+          image-ref: " ${{ secrets.DOCKERHUB_USERNAME }}/docker-ubuntu-ansible:${{matrix.build-os}}"
+          format: "template"
+          template: "@/contrib/sarif.tpl"
+          output: "trivy-results.sarif"
+      - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: 'trivy-results.sarif'
-      -
-        # this will push the amd64 image
+          sarif_file: "trivy-results.sarif"
+      - # this will push the amd64 image
         name: Docker Build
         id: docker_build
-        uses: docker/build-push-action@v4.0.0
+        uses: docker/build-push-action@v6.13.0
         with:
           platforms: linux/amd64
           builder: ${{ steps.buildx.outputs.name }}
@@ -115,8 +106,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request'}}
           tags: ${{ steps.base_meta.outputs.tags }}
           labels: ${{ steps.base_meta.outputs.labels }}
-      -
-        # Temp fix
+      - # Temp fix
         # https://github.com/docker/build-push-action/issues/252
         # https://github.com/moby/buildkit/issues/1896
         name: Move cache

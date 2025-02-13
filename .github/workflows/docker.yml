@@ -32,7 +32,7 @@ jobs:
     #   ANSIBLE_USER: ansible
     # COMPOSE_INTERACTIVE_NO_CLI: "1" #fix the input device is not a TTY
     steps:
-      - uses: actions/checkout@v3.3.0
+      - uses: actions/checkout@v4.2.2
       # - name: check docker compose version
       #   run: docker-compose --version
       - uses: hadolint/hadolint-action@v3.1.0
